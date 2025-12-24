@@ -34,7 +34,7 @@ class OttawaCrimeApiClientTest {
   }
 
   @Test
-  void fetchCrimeDataParsesResponse() throws Exception {
+  void fetchCrimeDataParsesResponse() {
     server.enqueue(
         new MockResponse()
             .setBody("{\"features\": []}")
