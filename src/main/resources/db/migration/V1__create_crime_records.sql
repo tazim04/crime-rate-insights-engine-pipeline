@@ -1,6 +1,6 @@
 CREATE EXTENSION IF NOT EXISTS postgis;
 
-CREATE TABLE IF NOT EXISTS crime_incidents (
+CREATE TABLE IF NOT EXISTS crime_records (
     id BIGINT PRIMARY KEY,
     year INT,
     reported_date TIMESTAMP,
@@ -14,9 +14,10 @@ CREATE TABLE IF NOT EXISTS crime_incidents (
     neighbourhood TEXT,
     ward TEXT,
     intersection TEXT,
+    census_tract TEXT,
     location GEOMETRY(Point, 4326)
 );
 
 CREATE INDEX IF NOT EXISTS idx_crime_location
-    ON crime_incidents
+    ON crime_records
     USING GIST (location);
