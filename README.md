@@ -3,23 +3,50 @@
 Spring Boot microservice responsible for fetching, normalizing, and persisting
 public crime data for the CrimeLens platform.
 
-This service ingests data from the Ottawa Police public API, transforms it into
-a normalized domain model, and stores it in a PostGIS-backed PostgreSQL database.
+This service ingests data from the Ottawa Police's [Criminal Offesnes Open Data public API](https://data.ottawapolice.ca/datasets/0356deb79cfd4488956116fda366df38_0/explore?showTable=true), transforms it into
+a normalized domain model, and stores it in a PostGIS database.
 
 ---
 
-## Running the Application
+## Running the Application (with Docker)
 
+This project is designed to be run using Docker Compose for local development.
+
+### To Start the application:
 From the project root:
 ```Bash
-mvn sprint-boot:run
+docker compose up --build
+```
+
+This will:
+* Start a PostGIS-enabled PostgreSQL database
+* Build and run the CrimeLens pipeline service
+* Automatically apply Flyway migrations
+* Run the ingestion pipeline according to the active Spring profile
+  * For a better dev experience, create a `.env` file and set `SPRING_PROFILES_ACTIVE=dev`
+  * This will run the pipeline on start up, and only once (scheduled job is specific to PROD)
+
+### To stop the application:
+```Bash
+docker compose down
 ```
 
 ## Running Tests
 
-Documentation TBD.
+### Run all Tests (unit + integration)
+```Bash
+mvn verify
+```
 
-## Code Formatging
+This will:
+* Run unit tests
+* Spin up a PostGIS Testcontainer for integration tests
+* Validate ingestion pipeline and rerun behavior
+* Enforce formatting via Spotless
+
+> Note: Docker must be running for integration tests (Testcontainers).
+
+## Code Formatting
 
 This project uses **Spotless** with **Google Java Format**.
 
